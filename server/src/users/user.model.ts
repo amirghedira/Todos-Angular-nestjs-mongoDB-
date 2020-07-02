@@ -1,5 +1,4 @@
 import * as mongoose from 'mongoose'
-import { access } from 'fs'
 
 
 export const UserSchema = new mongoose.Schema({

@@ -44,6 +44,14 @@ export class UserService {
 
         throw new HttpException('user not found', HttpStatus.NOT_FOUND)
     }
+    getUserByUsrname = async (username: string) => {
+
+        const user = await this.UserModel.findOne({ username: username })
+        if (user)
+            return user
+
+        throw new HttpException('user not found', HttpStatus.NOT_FOUND)
+    }
     userLogin = async (username: string, password: string) => {
 
         const user = await this.UserModel.findOne({ username: username })

@@ -1,18 +1,26 @@
-import { Controller, Get, Param, Post, Body, Patch, Delete } from "@nestjs/common";
+import { Controller, Get, Param, Post, Body, Patch, Delete, UseGuards, Request } from "@nestjs/common";
 import { UserService } from "./user.service";
+import { AuthGuard } from "@nestjs/passport";
+import { JwtAuthGuard } from '../auth/jwt-auth.gard';
+import { AuthService } from "src/auth/auth.service";
+import { LocalAuthGuard } from "src/auth/local-auth.gard";
 
 
 @Controller('user')
 export class UserController {
 
-    constructor(private readonly userService: UserService) { }
+    constructor(private readonly userService: UserService, private readonly authService: AuthService) { }
 
     @Get()
     async getUsers() {
 
         return await this.userService.getUsers();
     }
-
+    @UseGuards(JwtAuthGuard)
+    @Get('/test')
+    async getTest(@Request() req) {
+        return req.user
+    }
     @Get(':id')
     async getUser(@Param('id') userId: string) {
         return await this.userService.getUser(userId)
@@ -27,13 +35,17 @@ export class UserController {
 
         return await this.userService.addUser(username, password, name, surname)
     }
+
+
+    @UseGuards(LocalAuthGuard)
     @Post('/login')
-    async userLogin(
-        @Body('username') username: string,
-        @Body('password') password: string,
-    ) {
-        return await this.userService.userLogin(username, password)
+    async login(@Request() req) {
+
+        return this.authService.login(req.user)
+
     }
+
+
     @Patch(':id')
     async updateUser(
         @Param('id') userid: string,

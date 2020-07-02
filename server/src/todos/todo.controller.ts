@@ -1,7 +1,6 @@
-import { Controller, Get, Param, Post, Body, Delete, Patch } from "@nestjs/common";
+import { Controller, Get, Param, Post, Body, Delete, Patch, UseGuards, } from "@nestjs/common";
+import { AuthGuard } from "@nestjs/passport";
 import { TodoService } from './todo.service'
-
-
 @Controller('todo')
 export class TodoController {
     constructor(private readonly todoService: TodoService) { }
@@ -34,7 +33,7 @@ export class TodoController {
     async updateTodo(
         @Param('id') todoId: string,
         @Body('title') title: string,
-        @Body('description') description: string
+        @Body('description') description: string,
 
     ) {
         return await this.todoService.editTodo(todoId, title, description)
