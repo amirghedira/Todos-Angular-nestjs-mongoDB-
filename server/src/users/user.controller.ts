@@ -16,11 +16,7 @@ export class UserController {
 
         return await this.userService.getUsers();
     }
-    @UseGuards(JwtAuthGuard)
-    @Get('/test')
-    async getTest(@Request() req) {
-        return req.user
-    }
+
     @Get(':id')
     async getUser(@Param('id') userId: string) {
         return await this.userService.getUser(userId)
@@ -46,29 +42,33 @@ export class UserController {
     }
 
 
-    @Patch(':id')
+    @UseGuards(JwtAuthGuard)
+    @Patch()
     async updateUser(
-        @Param('id') userid: string,
+        @Request() req: any,
         @Body('username') username: string,
         @Body('name') name: string,
         @Body('surname') surname: string,
         @Body('access') access: string
     ) {
-        return await this.userService.editUser(userid, username, name, surname, access)
+        return await this.userService.editUser(req.user._id, username, name, surname, access)
 
     }
+
+    @UseGuards(JwtAuthGuard)
     @Delete(':id')
     async deleteUser(@Param('id') userid: string) {
 
         return await this.userService.deleteUser(userid)
 
     }
-    @Patch('/password/:id')
+    @UseGuards(JwtAuthGuard)
+    @Patch('/password')
     async updatePassword(
-        @Param('id') userid: string,
+        @Request() req: any,
         @Body('newPassword') newPassword: string
     ) {
-        return await this.userService.updatePassword(userid, newPassword)
+        return await this.userService.updatePassword(req.user._id, newPassword)
     }
 
 

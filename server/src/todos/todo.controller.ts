@@ -1,6 +1,7 @@
-import { Controller, Get, Param, Post, Body, Delete, Patch, UseGuards, } from "@nestjs/common";
+import { Controller, Get, Param, Post, Body, Delete, Patch, UseGuards, Request } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { TodoService } from './todo.service'
+import { JwtAuthGuard } from "src/auth/jwt-auth.gard";
 @Controller('todo')
 export class TodoController {
     constructor(private readonly todoService: TodoService) { }
@@ -16,19 +17,25 @@ export class TodoController {
 
         return await this.todoService.getTodo(todoId)
     }
+
+    @UseGuards(JwtAuthGuard)
     @Post()
     async addTodo(
+        @Request() req: any,
         @Body('title') title: string,
         @Body('description') description: string,
-        @Body('userid') userId: string
     ) {
-        return await this.todoService.addTodo(userId, title, description)
+        return await this.todoService.addTodo(req.user._id, title, description)
     }
+
+    @UseGuards(JwtAuthGuard)
     @Delete(':id')
     async deleteTodo(@Param('id') todoId: string) {
 
         this.todoService.deleteTodo(todoId)
     }
+
+    @UseGuards(JwtAuthGuard)
     @Patch(':id')
     async updateTodo(
         @Param('id') todoId: string,
