@@ -30,20 +30,21 @@ export class TodoController {
 
     @UseGuards(JwtAuthGuard)
     @Delete(':id')
-    async deleteTodo(@Param('id') todoId: string) {
+    async deleteTodo(@Param('id') todoId: string, @Request() req) {
 
-        this.todoService.deleteTodo(todoId)
+        this.todoService.deleteTodo(todoId, req.user._id)
     }
 
     @UseGuards(JwtAuthGuard)
     @Patch(':id')
     async updateTodo(
+        @Request() req: any,
         @Param('id') todoId: string,
         @Body('title') title: string,
         @Body('description') description: string,
 
     ) {
-        return await this.todoService.editTodo(todoId, title, description)
+        return await this.todoService.editTodo(todoId, req.user._id, title, description)
     }
 
 }

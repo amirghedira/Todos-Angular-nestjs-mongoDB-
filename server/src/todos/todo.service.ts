@@ -1,11 +1,12 @@
-import { Injectable, Inject } from "@nestjs/common";
+import { Injectable, Inject, HttpException, HttpStatus } from "@nestjs/common";
 import { InjectModel } from '@nestjs/mongoose'
 import { Todo } from './todo.model'
 import { Model } from 'mongoose'
+import { UserService } from "src/users/user.service";
 @Injectable()
 export class TodoService {
 
-    constructor(@InjectModel('Todo') private TodoModel: Model<Todo>) { }
+    constructor(@InjectModel('Todo') private TodoModel: Model<Todo>, private userService: UserService) { }
 
     getTodos = async () => {
 
@@ -29,16 +30,38 @@ export class TodoService {
         return createdTodo._id
 
     }
-    deleteTodo = async (todoid: string) => {
+    deleteTodo = async (todoid: string, userid: string) => {
 
-        await this.TodoModel.deleteOne({ _id: todoid })
-        return;
+        const user = await this.userService.getUser(userid)
+        const todo = await this.TodoModel.findById(todoid)
+        if (todo)
+            if (user.adminAccess || user._id === todo.userid) {
+
+                await this.TodoModel.deleteOne({ _id: todoid })
+                return { message: 'todo successfully deleted' }
+            }
+            else
+                throw new HttpException('access denied', HttpStatus.FORBIDDEN);
+
+        throw new HttpException('todo not found', HttpStatus.NOT_FOUND)
 
     }
-    editTodo = async (todoId: string, title: string, description: string) => {
+    editTodo = async (todoId: string, userid: string, title: string, description: string) => {
 
-        await this.TodoModel.updateOne({ _id: todoId }, { $set: { title: title, description: description } })
-        return;
+        const user = await this.userService.getUser(userid)
+        const todo = await this.TodoModel.findById(todoId)
+        if (todo)
+            if (user.adminAccess || user._id === todo.userid) {
+
+                todo.title = title;
+                todo.description = description;
+                await todo.save()
+                return { message: 'todo successfully updated' }
+            }
+            else
+                throw new HttpException('access denied', HttpStatus.FORBIDDEN);
+
+        throw new HttpException('todo not found', HttpStatus.NOT_FOUND)
 
     }
 

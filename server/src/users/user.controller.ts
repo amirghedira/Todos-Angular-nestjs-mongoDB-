@@ -36,39 +36,39 @@ export class UserController {
     @UseGuards(LocalAuthGuard)
     @Post('/login')
     async login(@Request() req) {
-
-        return this.authService.login(req.user)
-
+        return await this.authService.login(req.user)
     }
 
 
     @UseGuards(JwtAuthGuard)
-    @Patch()
+    @Patch(':id')
     async updateUser(
         @Request() req: any,
+        @Param('id') userid: string,
         @Body('username') username: string,
         @Body('name') name: string,
         @Body('surname') surname: string,
         @Body('access') access: string
     ) {
-        return await this.userService.editUser(req.user._id, username, name, surname, access)
+        return await this.userService.editUser(req.user._id, userid, username, name, surname, access)
 
     }
 
     @UseGuards(JwtAuthGuard)
     @Delete(':id')
-    async deleteUser(@Param('id') userid: string) {
+    async deleteUser(@Param('id') userid: string, @Request() req: any) {
 
-        return await this.userService.deleteUser(userid)
+        return await this.userService.deleteUser(userid, req.user._id)
 
     }
     @UseGuards(JwtAuthGuard)
-    @Patch('/password')
+    @Patch('/password/:id')
     async updatePassword(
         @Request() req: any,
+        @Param('id') userid: string,
         @Body('newPassword') newPassword: string
     ) {
-        return await this.userService.updatePassword(req.user._id, newPassword)
+        return await this.userService.updatePassword(req.user._id, userid, newPassword)
     }
 
 
