@@ -27,6 +27,10 @@ export class UserService {
         return this.http.post('http://localhost:3000/user/login', { username, password })
 
     }
+    getUsers() {
+
+        return this.http.get('http://localhost:3000/user')
+    }
     getConnectUser() {
         return this.http.get('http://localhost:3000/user/token', { headers: this.headers })
     }

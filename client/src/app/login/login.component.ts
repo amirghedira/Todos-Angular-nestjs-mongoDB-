@@ -21,6 +21,7 @@ export class LoginComponent implements OnInit {
     }
     onConnect() {
         this.userService.userLogin(this.username, this.password).subscribe(((response: any) => {
+            localStorage.clear()
             localStorage.setItem('token', response.access_token)
             this.userService.setSession()
             this.todoService.setSession()

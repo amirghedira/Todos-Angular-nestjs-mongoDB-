@@ -18,3 +18,14 @@
 .nav-button {
     margin: 10px 10px
 }
+
+.dropdown-name {
+
+    background-color: transparent;
+    border: transparent;
+}
+
+.dropdown-user {
+
+    margin-right: 50px;
+}

@@ -11,12 +11,20 @@ import { UserService } from '../service/user.service';
 export class NavbarComponent implements OnInit {
 
     status: boolean;
+    user: any;
     constructor(private router: Router, private userService: UserService) {
         this.status = false;
         this.userService.userConnected.subscribe((token) => {
 
-            if (token)
-                this.status = true
+            this.userService.getConnectUser().subscribe((user: any) => {
+                if (user) {
+                    this.status = true
+                    this.user = user
+                }
+                else
+                    this.status = false
+
+            })
 
         });
 
@@ -24,8 +32,10 @@ export class NavbarComponent implements OnInit {
     ngOnInit() {
         if (this.userService.token)
             this.userService.getConnectUser().subscribe((user: any) => {
-                if (user)
+                if (user) {
                     this.status = true
+                    this.user = user
+                }
                 else
                     this.status = false
 

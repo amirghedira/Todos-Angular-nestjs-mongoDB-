@@ -16,9 +16,16 @@
                 [routerLink]="['/login']">Login</button>
             <button *ngIf="!status" class="btn btn-outline-warning my-2 my-sm-0 nav-button"
                 [routerLink]="['/signup']">Sign up</button>
-            <button *ngIf="status" class="btn btn-outline-danger my-2 my-sm-0 nav-button"
-                (click)="onDisconnect()">Disconnect</button>
+            <div *ngIf="status" class="dropdown dropdown-user">
+                <button class="btn btn-secondary dropdown-toggle dropdown-name" type="button" id="dropdownMenuButton"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    {{user.name}}
+                </button>
+                <div class="dropdown-menu">
+                    <button class="dropdown-item" (click)="onDisconnect()">Disconnect</button>
 
+                </div>
+            </div>
         </form>
     </div>
 

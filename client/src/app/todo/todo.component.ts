@@ -18,34 +18,43 @@ export class TodoComponent implements OnInit {
     toEditId: string;
     editDescription: string;
     editTitle: string;
+    users: any;
     constructor(private router: Router, private readonly userService: UserService, private readonly todoService: TodoService) { }
     connectedUser;
     ngOnInit() {
 
-        if (this.userService.token)
-            this.userService.getConnectUser().subscribe((result: any) => {
-                this.connectedUser = result.user
-                this.todoService.getTodos().subscribe((response: any) => {
-                    this.todos = response;
+        if (this.userService.token) {
+            this.userService.getConnectUser().subscribe((user: any) => {
+                this.connectedUser = user
+                this.userService.getUsers().subscribe((users: any) => {
+                    this.users = users.filter(usr => { return usr._id != user._id })
                 })
-
-
             })
+            this.todoService.getTodos().subscribe((todos: any) => {
+                this.todos = todos;
+            })
+        }
+
         else
             this.router.navigate(['/login'])
 
     }
     onPost() {
-        this.todoService.addTodo(this.title, this.description).subscribe((response: any) => {
-            this.todos.push(response)
-            this.title = ''
-            this.description = ''
-        })
+        if (this.title != '' && this.description != this.description)
+            this.todoService.addTodo(this.title, this.description).subscribe((response: any) => {
+                this.todos.push(response)
+                this.title = ''
+                this.description = ''
+            })
     }
     transformDate(date) {
 
         return new Date(date).toDateString()
 
+    }
+    checkAdminAccess() {
+        console.log(this.connectedUser)
+        return this.connectedUser.adminAccess;
     }
     onClickEditTodo(todoid) {
         this.toEditId = todoid
