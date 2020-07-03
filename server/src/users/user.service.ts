@@ -51,6 +51,13 @@ export class UserService {
 
         throw new HttpException('user not found', HttpStatus.NOT_FOUND)
     }
+    getUserByToken = async (userId: string) => {
+
+        const user = await this.UserModel.findById(userId).exec()
+        if (user)
+            return user
+        throw new HttpException('user not found', HttpStatus.NOT_FOUND)
+    }
     editUser = async (senderId: string, userId: string, username: string, name: string, surname: string, access: string) => {
 
         const user = await this.UserModel.findOne({ _id: senderId }).exec()

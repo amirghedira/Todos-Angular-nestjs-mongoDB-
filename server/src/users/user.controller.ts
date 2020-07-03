@@ -1,6 +1,5 @@
 import { Controller, Get, Param, Post, Body, Patch, Delete, UseGuards, Request } from "@nestjs/common";
 import { UserService } from "./user.service";
-import { AuthGuard } from "@nestjs/passport";
 import { JwtAuthGuard } from '../auth/jwt-auth.gard';
 import { AuthService } from "src/auth/auth.service";
 import { LocalAuthGuard } from "src/auth/local-auth.gard";
@@ -15,6 +14,13 @@ export class UserController {
     async getUsers() {
 
         return await this.userService.getUsers();
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Get('/token')
+    async getUserWithToken(@Request() req: any) {
+
+        return await this.userService.getUserByToken(req.user._id)
     }
 
     @Get(':id')

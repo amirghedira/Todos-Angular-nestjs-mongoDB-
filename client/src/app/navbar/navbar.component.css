@@ -1,0 +1,20 @@
+.main-nav {
+
+    display: fixed !important;
+    top: 0;
+    left: 0;
+
+}
+
+.control-form {
+    justify-content: flex-end;
+}
+
+.nav-control {
+    display: flex;
+    align-items: center;
+}
+
+.nav-button {
+    margin: 10px 10px
+}

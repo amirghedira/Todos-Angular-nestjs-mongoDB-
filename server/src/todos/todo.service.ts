@@ -10,7 +10,7 @@ export class TodoService {
 
     getTodos = async () => {
 
-        const todos = await this.TodoModel.find();
+        const todos = await this.TodoModel.find().populate('userid').exec();
         return todos
     }
     getTodo = async (todoId: string) => {
@@ -27,7 +27,9 @@ export class TodoService {
             date: new Date().toISOString()
         })
         const createdTodo = await newTodo.save();
-        return createdTodo._id
+        const todo = await this.TodoModel.findById(createdTodo._id).populate('userid')
+        return todo
+
 
     }
     deleteTodo = async (todoid: string, userid: string) => {
