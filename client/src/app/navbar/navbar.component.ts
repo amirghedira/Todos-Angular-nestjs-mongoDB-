@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserService } from '../service/user.service';
+import { AuthService } from '../service/auth.service';
 
 @Component({
     selector: 'app-nav',
@@ -12,25 +13,28 @@ export class NavbarComponent implements OnInit {
 
     status: boolean;
     user: any;
-    constructor(private router: Router, private userService: UserService) {
+    loading: boolean;
+    constructor(private router: Router, private userService: UserService, private authService: AuthService) {
         this.status = false;
+        this.loading = false;
         this.userService.userConnected.subscribe((token) => {
+            if (token)
+                this.userService.getConnectUser().subscribe((user: any) => {
+                    if (user) {
+                        this.status = true
+                        this.user = user
+                    }
+                    else
+                        this.status = false
 
-            this.userService.getConnectUser().subscribe((user: any) => {
-                if (user) {
-                    this.status = true
-                    this.user = user
-                }
-                else
-                    this.status = false
-
-            })
+                })
 
         });
 
     }
     ngOnInit() {
-        if (this.userService.token)
+        if (this.authService.getToken()) {
+
             this.userService.getConnectUser().subscribe((user: any) => {
                 if (user) {
                     this.status = true
@@ -39,11 +43,19 @@ export class NavbarComponent implements OnInit {
                 else
                     this.status = false
 
+                this.loading = true;
+
+
             })
+        } else {
+            this.loading = true;
+        }
+
+
 
     }
     onDisconnect() {
-        this.userService.disconnectUser();
+        this.authService.eraseToken();
         this.status = false;
         this.router.navigate(['/login'])
     }

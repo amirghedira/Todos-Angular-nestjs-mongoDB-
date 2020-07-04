@@ -3,7 +3,8 @@ import { UserService } from '../service/user.service';
 import { TodoService } from '../service/todo.service';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
-
+import { AuthService } from '../service/auth.service';
+import * as moment from 'moment'
 
 
 @Component({
@@ -19,20 +20,32 @@ export class TodoComponent implements OnInit {
     editDescription: string;
     editTitle: string;
     users: any;
-    constructor(private router: Router, private readonly userService: UserService, private readonly todoService: TodoService) { }
+    selectedUser: string;
+    constructor(private router: Router, private readonly userService: UserService, private readonly todoService: TodoService, private authService: AuthService) { }
     connectedUser;
     ngOnInit() {
 
-        if (this.userService.token) {
+        if (this.authService.getToken()) {
             this.userService.getConnectUser().subscribe((user: any) => {
                 this.connectedUser = user
-                this.userService.getUsers().subscribe((users: any) => {
-                    this.users = users.filter(usr => { return usr._id != user._id })
-                })
+                if (user.adminAccess) {
+                    this.userService.getUsers().subscribe((users: any) => {
+                        this.users = users.filter(usr => { return usr._id != user._id })
+                    })
+                    this.todoService.getTodos().subscribe((todos: any) => {
+                        todos.reverse()
+                        this.todos = todos;
+
+                    })
+                } else {
+                    this.users = [];
+                    this.todoService.getUserTodo().subscribe((todos: any) => {
+                        todos.reverse()
+                        this.todos = todos;
+                    })
+                }
             })
-            this.todoService.getTodos().subscribe((todos: any) => {
-                this.todos = todos;
-            })
+
         }
 
         else
@@ -40,8 +53,11 @@ export class TodoComponent implements OnInit {
 
     }
     onPost() {
-        if (this.title != '' && this.description != this.description)
-            this.todoService.addTodo(this.title, this.description).subscribe((response: any) => {
+        const userIndex = this.users.findIndex(user => user.username === this.selectedUser)
+        const assignedUserId = this.users[userIndex]._id
+        if (this.title != '' && this.description != '')
+            this.todoService.addTodo(assignedUserId, this.title, this.description).subscribe((response: any) => {
+                console.log(response)
                 this.todos.push(response)
                 this.title = ''
                 this.description = ''
@@ -49,11 +65,13 @@ export class TodoComponent implements OnInit {
     }
     transformDate(date) {
 
-        return new Date(date).toDateString()
+
+
+        return moment(date).fromNow()
 
     }
     checkAdminAccess() {
-        console.log(this.connectedUser)
+
         return this.connectedUser.adminAccess;
     }
     onClickEditTodo(todoid) {
@@ -64,6 +82,13 @@ export class TodoComponent implements OnInit {
             const index = this.todos.findIndex(todo => { return todo._id === this.toEditId })
             this.todos[index].title = this.editTitle;
             this.todos[index].description = this.editDescription;
+
+        })
+    }
+    oneditTodoState(todoId: string, todoState: boolean) {
+        this.todoService.updateTodoState(todoId, todoState).subscribe(response => {
+            const todoIndex = this.todos.findIndex(todo => todo._id === todoId)
+            this.todos[todoIndex].state = todoState;
 
         })
     }

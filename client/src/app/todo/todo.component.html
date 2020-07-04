@@ -5,18 +5,23 @@
 
 
             <div *ngIf="checkAdminAccess()" class="col-sm-12 col-md-4">
-                <h4>Add Tasks</h4>
-                <select class="form-control select-users" id="exampleFormControlSelect1">
-                    <option *ngFor="let user of users"> {{user.username}}</option>
-                </select>
-                <input type="text" class="form-control" placeholder="Title here..." name="title" id="title"
-                    [(ngModel)]="title">
-                <textarea class=" form-control todo-input mx-auto" placeholder="Description here..." name="description"
-                    id="description" [(ngModel)]="description"></textarea>
-                <div class="row">
-                    <div class="mx-auto">
-                        <button *ngIf="!status" class="btn btn-outline-success my-2 my-sm-0" (click)="onPost()">Assign
-                            task</button>
+                <div class="add-task">
+
+                    <h4>Add Tasks</h4>
+                    <select class="form-control select-users" id="selectedUser" name="selectedUser"
+                        [(ngModel)]="selectedUser">
+                        <option *ngFor="let user of users"> {{user.username}}</option>
+                    </select>
+                    <input type="text" class="form-control" placeholder="Title here..." name="title" id="title"
+                        [(ngModel)]="title">
+                    <textarea class=" form-control todo-input mx-auto" placeholder="Description here..."
+                        name="description" id="description" [(ngModel)]="description"></textarea>
+                    <div class="row">
+                        <div class="mx-auto">
+                            <button *ngIf="!status" class="btn btn-outline-success my-2 my-sm-0"
+                                (click)="onPost()">Assign
+                                task</button>
+                        </div>
                     </div>
                 </div>
 
@@ -26,25 +31,37 @@
                 <div *ngFor="let todo of todos" class="todo-list">
                     <div class="row nav-todo">
                         <div class="col-8">
-                            <h5 class="todo-title">{{todo.title}}</h5>
-                            <p class="display-date">Posted by <span class="profile-name">{{todo.userid.name}}
+                            <div class="main-title">
+                                <i *ngIf="todo.state" class="fa fa-check state-icon closed-icon" aria-hidden="true"></i>
+
+                                <i *ngIf="!todo.state" class="fas fa-lock-open state-icon open-icon"></i>
+
+                                <h5 class="todo-title">{{todo.title}}</h5>
+                            </div>
+                            <p class="display-date">Assigned to <span class="profile-name">{{todo.userid.name}}
                                     {{todo.userid.surname}}</span>
                                 ,{{transformDate(todo.date)}}
                             </p>
                         </div>
 
                         <div class="col-4 dropdown-control">
-
                             <div class="dropdown dropdown-button">
                                 <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <i class="fas fa-cog"></i>
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <button class="dropdown-item" (click)="onClickEditTodo(todo._id)"
-                                        data-toggle="modal" data-target="#myModal">Edit Todo</button>
-                                    <button class="dropdown-item" (click)="onDeleteTodo(todo._id)">Delete Todo</button>
-                                    <button class="dropdown-item" (click)="onDeleteUser(todo.userid._id)">Delete
+                                    <button class="dropdown-item"
+                                        (click)="oneditTodoState(todo._id,false)">Opentask</button>
+                                    <button class="dropdown-item" (click)="oneditTodoState(todo._id,true)">End
+                                        task</button>
+                                    <button *ngIf="checkAdminAccess()" class="dropdown-item"
+                                        (click)="onClickEditTodo(todo._id)" data-toggle="modal"
+                                        data-target="#myModal">Edit Todo</button>
+                                    <button *ngIf="checkAdminAccess()" class="dropdown-item"
+                                        (click)="onDeleteTodo(todo._id)">Delete Todo</button>
+                                    <button *ngIf="checkAdminAccess()" class="dropdown-item"
+                                        (click)="onDeleteUser(todo.userid._id)">Delete
                                         user</button>
                                 </div>
                             </div>

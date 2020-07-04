@@ -10,10 +10,12 @@ import { TodoComponent } from './todo/todo.component';
 import { HttpClientModule } from '@angular/common/http';
 import { TodoService } from './service/todo.service';
 import { UserService } from './service/user.service';
+import { AuthService } from './service/auth.service';
+import { ProfileComponent } from './profile/profile.component';
 
 @NgModule({
     declarations: [
-        AppComponent, SignUpComponent, LoginComponent, NavbarComponent, TodoComponent
+        AppComponent, SignUpComponent, LoginComponent, NavbarComponent, TodoComponent, ProfileComponent
     ],
     imports: [
         BrowserModule,
@@ -21,7 +23,7 @@ import { UserService } from './service/user.service';
         FormsModule,
         HttpClientModule
     ],
-    providers: [TodoService, UserService],
+    providers: [TodoService, UserService, AuthService],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -69,3 +69,27 @@
 
     height: 100vh;
 }
+
+.main-title {
+    display: flex;
+}
+
+.state-icon {
+    margin-right: 5px;
+}
+
+.open-icon {
+    color: red;
+}
+
+.closed-icon {
+
+    color: green;
+}
+
+.add-task {
+    position: sticky;
+    position: -webkit-sticky;
+    top: 60px;
+
+}
