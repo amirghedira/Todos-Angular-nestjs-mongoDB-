@@ -24,7 +24,7 @@ let TodoService = class TodoService {
         this.userService = userService;
         this.getTodos = async () => {
             try {
-                const todos = await this.TodoModel.find().populate('userid').exec();
+                const todos = await this.TodoModel.find().populate([{ path: 'userid', writerid: 'writerid' }]).exec();
                 return todos;
             }
             catch (error) {
@@ -42,11 +42,10 @@ let TodoService = class TodoService {
         };
         this.getUserTodos = async (userId) => {
             try {
-                const userTodos = await this.TodoModel.find({ userid: userId }).exec();
+                const userTodos = await this.TodoModel.find({ userid: userId }).populate([{ path: 'writerid' }]).exec();
                 return userTodos;
             }
             catch (error) {
-                console.log(error);
                 return new common_1.HttpException(error.message, common_1.HttpStatus.INTERNAL_SERVER_ERROR);
             }
         };
@@ -55,6 +54,7 @@ let TodoService = class TodoService {
             if (userSender.adminAccess)
                 try {
                     const newTodo = new this.TodoModel({
+                        writerid: senderId,
                         userid: userid,
                         title: title,
                         description: desc,

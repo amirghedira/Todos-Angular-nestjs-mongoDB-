@@ -38,9 +38,9 @@
 
                                 <h5 class="todo-title">{{todo.title}}</h5>
                             </div>
-                            <p class="display-date">Assigned to <a class="profile-name"
-                                    [routerLink]="['/profile/',todo.userid._id]">{{todo.userid.name}}
-                                    {{todo.userid.surname}}</a>
+                            <p class="display-date">Assigned {{checkAdminAccess()? 'to' : 'by'}} <a class="profile-name"
+                                    [routerLink]="['/profile/',todo.userid._id]">
+                                    {{checkAdminAccess()? todo.userid.name +' '+todo.userid.surname : todo.writerid.name+' '+todo.writerid.surname}}</a>
                                 ,{{transformDate(todo.date)}}
                             </p>
                         </div>

@@ -53,13 +53,14 @@ let ProfileComponent = class ProfileComponent {
         if (this.repassword === this.newpassword)
             this.userService.updateUserPassword(this.userProfile._id, this.oldpassword, this.newpassword)
                 .subscribe((response) => {
-                console.log(response);
                 if (response.status)
                     sweetalert2_1.default.fire({
                         icon: 'error',
                         title: 'Oops...',
                         text: response.message
                     });
+                else
+                    this.editingPassword = false;
             });
         else
             sweetalert2_1.default.fire({

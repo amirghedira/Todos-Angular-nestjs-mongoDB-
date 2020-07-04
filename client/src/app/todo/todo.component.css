@@ -74,6 +74,7 @@
 
 .main-title {
     display: flex;
+    align-items: center;
 }
 
 .state-icon {
@@ -82,10 +83,10 @@
 
 .open-icon {
     color: red;
+
 }
 
 .closed-icon {
-
     color: green;
 }
 

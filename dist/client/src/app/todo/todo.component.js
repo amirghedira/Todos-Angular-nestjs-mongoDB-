@@ -54,8 +54,7 @@ let TodoComponent = class TodoComponent {
         const assignedUserId = this.users[userIndex]._id;
         if (this.title != '' && this.description != '')
             this.todoService.addTodo(assignedUserId, this.title, this.description).subscribe((response) => {
-                console.log(response);
-                this.todos.push(response);
+                this.todos.unshift(response);
                 this.title = '';
                 this.description = '';
             });

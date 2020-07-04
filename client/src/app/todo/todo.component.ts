@@ -57,7 +57,7 @@ export class TodoComponent implements OnInit {
         const assignedUserId = this.users[userIndex]._id
         if (this.title != '' && this.description != '')
             this.todoService.addTodo(assignedUserId, this.title, this.description).subscribe((response: any) => {
-                this.todos.push(response)
+                this.todos.unshift(response)
                 this.title = ''
                 this.description = ''
             })
