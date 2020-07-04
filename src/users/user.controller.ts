@@ -45,6 +45,17 @@ export class UserController {
         return await this.authService.login(req.user)
     }
 
+    @UseGuards(JwtAuthGuard)
+    @Patch('/password/:id')
+    async updatePassword(
+        @Request() req: any,
+        @Param('id') userid: string,
+        @Body('newPassword') newPassword: string,
+        @Body('oldPassword') oldPassword: string
+    ) {
+        return await this.userService.updatePassword(req.user._id, userid, oldPassword, newPassword)
+    }
+
 
     @UseGuards(JwtAuthGuard)
     @Patch(':id')
@@ -67,15 +78,7 @@ export class UserController {
         return await this.userService.deleteUser(userid, req.user._id)
 
     }
-    @UseGuards(JwtAuthGuard)
-    @Patch('/password/:id')
-    async updatePassword(
-        @Request() req: any,
-        @Param('id') userid: string,
-        @Body('newPassword') newPassword: string
-    ) {
-        return await this.userService.updatePassword(req.user._id, userid, newPassword)
-    }
+
 
 
 }

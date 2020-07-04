@@ -101,13 +101,23 @@ let UserService = class UserService {
                 return new common_1.HttpException(error.message, common_1.HttpStatus.INTERNAL_SERVER_ERROR);
             }
         };
-        this.updatePassword = async (senderId, userId, newPassword) => {
+        this.updatePassword = async (senderId, userId, oldPassword, newPassword) => {
             try {
-                const user = await this.UserModel.findById(senderId);
-                if (user && (user.adminAccess || user._id === userId)) {
-                    const hashedpass = await bcrypt.hash(newPassword, 11);
-                    user.password = hashedpass;
-                    return await user.save();
+                const userSender = await this.UserModel.findById(senderId);
+                const user = await this.UserModel.findById(userId);
+                if (user) {
+                    if (userSender.adminAccess) {
+                        const hashedpass = await bcrypt.hash(newPassword, 11);
+                        user.password = hashedpass;
+                        return await user.save();
+                    }
+                    else if (userSender._id === userId)
+                        if (await bcrypt.compare(oldPassword, user.password)) {
+                            const hashedpass = await bcrypt.hash(newPassword, 11);
+                            user.password = hashedpass;
+                            return await user.save();
+                        }
+                    throw new common_1.HttpException('Wrong password', common_1.HttpStatus.FORBIDDEN);
                 }
                 throw new common_1.HttpException('user not found', common_1.HttpStatus.NOT_FOUND);
             }

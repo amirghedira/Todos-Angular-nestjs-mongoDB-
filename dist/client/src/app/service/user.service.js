@@ -49,6 +49,10 @@ let UserService = class UserService {
         const headers = new http_1.HttpHeaders().set('Authorization', 'Bearer ' + this.authService.getToken());
         return this.http.patch('http://localhost:3000/user/' + userId, { username, surname, name, access }, { headers: headers });
     }
+    updateUserPassword(userId, oldPassword, newPassword) {
+        const headers = new http_1.HttpHeaders().set('Authorization', 'Bearer ' + this.authService.getToken());
+        return this.http.patch('http://localhost:3000/user/password/' + userId, { newPassword, oldPassword }, { headers: headers });
+    }
 };
 UserService = __decorate([
     core_1.Injectable(),

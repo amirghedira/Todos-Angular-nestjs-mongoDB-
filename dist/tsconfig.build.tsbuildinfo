@@ -1447,8 +1447,8 @@
         "affectsGlobalScope": false
       },
       "../client/src/app/service/user.service.ts": {
-        "version": "e305bc02c47eea21cf55633170d923d623db7b9bef0fba3c58c58ec17c1b621b",
-        "signature": "244690794c8d76103e9635523179993de1841e00da0ab7bcc130551e0b34cc5c",
+        "version": "b5a03aef6ab450eb6b101c7c62eaf0b14895626eaa56bebfe9effcb3c7c569e0",
+        "signature": "40cc577f725dfd68616adc02f726e2e773e88cad6994a6a4672b6e68dce23303",
         "affectsGlobalScope": false
       },
       "../client/src/app/login/login.component.ts": {
@@ -1472,8 +1472,8 @@
         "affectsGlobalScope": false
       },
       "../client/src/app/profile/profile.component.ts": {
-        "version": "411ec20930c2e9abc2252695a79313f70ad8f0c6dfa569f49ebfc6407efde12b",
-        "signature": "4fbc2346fa9b8ac2450e157738e33b8980249da6ecdc87b35c9f04c8ed9669bc",
+        "version": "2dd6bc61ec3eae9c407b69ea78cd12bd2499f46d99a207e1b8fe7c3aaed257ba",
+        "signature": "3c5a35738b3d2ff78783346c231df35e92a159d5290b33c557d925d1597c7b57",
         "affectsGlobalScope": false
       },
       "../client/src/app/app.routing.ts": {
@@ -2637,8 +2637,8 @@
         "affectsGlobalScope": false
       },
       "../src/users/user.service.ts": {
-        "version": "0e87029ceac6821f29b09b123e015e658ddc1456441a5de4853d1f028b67e2c2",
-        "signature": "8c6b894632a8e12df581a68eec54a199ecd5b1e5758e651467f88c69fb182452",
+        "version": "22812bdf074286b29d0789cf334e12e52481a41a5b8d982031f5c7916a0c1dbc",
+        "signature": "d1083558ba67c88b330de422691145a5beac7cb21afd04702f1136f17f6cabd0",
         "affectsGlobalScope": false
       },
       "../node_modules/@nestjs/passport/dist/abstract.strategy.d.ts": {
@@ -2712,8 +2712,8 @@
         "affectsGlobalScope": false
       },
       "../src/users/user.controller.ts": {
-        "version": "2d6b3ac357a4debbd86a5d0fb0f9203cace9ec43031ac20e8a3d316b0a1028dd",
-        "signature": "3f400cc21123f47fa18ff48473669a881d14521f7ffdc743fcbd29c01f807e44",
+        "version": "03465d9e3b3343881b0b88f5569dd6b18f0390b98ec149619994e41bce6e31eb",
+        "signature": "e654f2989eaa820c7cd006768f4aa2962cd07551ece7b8a50b5e7b5c2854b681",
         "affectsGlobalScope": false
       },
       "../src/users/user.module.ts": {
@@ -5469,6 +5469,7 @@
       "../client/src/app/profile/profile.component.ts": [
         "../client/node_modules/@angular/core/core.d.ts",
         "../client/node_modules/@angular/router/router.d.ts",
+        "../client/node_modules/sweetalert2/sweetalert2.d.ts",
         "../client/src/app/service/user.service.ts",
         "../node_modules/@types/graceful-fs/index.d.ts",
         "../node_modules/@types/node/fs.d.ts",
@@ -15223,21 +15224,11 @@
       "../client/node_modules/rxjs/internal/util/unsubscriptionerror.d.ts",
       "../client/node_modules/sweetalert2/sweetalert2.d.ts",
       "../client/node_modules/webdriver-js-extender/built/lib/index.d.ts",
-      "../client/src/app/app-routing.module.ts",
       "../client/src/app/app.component.ts",
-      "../client/src/app/app.module.ts",
-      "../client/src/app/app.routing.ts",
-      "../client/src/app/login/login.component.ts",
-      "../client/src/app/navbar/navbar.component.ts",
-      "../client/src/app/profile/profile.component.ts",
       "../client/src/app/service/auth.service.ts",
       "../client/src/app/service/todo.service.ts",
-      "../client/src/app/service/user.service.ts",
-      "../client/src/app/signup/signup.component.ts",
-      "../client/src/app/todo/todo.component.ts",
       "../client/src/environments/environment.prod.ts",
       "../client/src/environments/environment.ts",
-      "../client/src/main.ts",
       "../client/src/polyfills.ts",
       "../client/src/test.ts",
       "../node_modules/@babel/parser/typings/babel-parser.d.ts",
@@ -15636,22 +15627,12 @@
       "../node_modules/typescript/lib/lib.scripthost.d.ts",
       "../node_modules/typescript/lib/lib.webworker.importscripts.d.ts",
       "../src/app.controller.ts",
-      "../src/app.module.ts",
-      "../src/auth/auth.module.ts",
-      "../src/auth/auth.service.ts",
       "../src/auth/jwt-auth.gard.ts",
       "../src/auth/jwt.strategy.ts",
       "../src/auth/local-auth.gard.ts",
-      "../src/auth/local.strategy.ts",
       "../src/main.ts",
-      "../src/todos/todo.controller.ts",
       "../src/todos/todo.model.ts",
-      "../src/todos/todo.module.ts",
-      "../src/todos/todo.service.ts",
-      "../src/users/user.controller.ts",
-      "../src/users/user.model.ts",
-      "../src/users/user.module.ts",
-      "../src/users/user.service.ts"
+      "../src/users/user.model.ts"
     ]
   },
   "version": "3.9.5"

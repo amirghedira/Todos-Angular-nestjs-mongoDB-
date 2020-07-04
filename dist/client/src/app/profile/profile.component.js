@@ -13,6 +13,7 @@ exports.ProfileComponent = void 0;
 const core_1 = require("@angular/core");
 const user_service_1 = require("../service/user.service");
 const router_1 = require("@angular/router");
+const sweetalert2_1 = require("sweetalert2");
 let ProfileComponent = class ProfileComponent {
     constructor(userService, route) {
         this.userService = userService;
@@ -32,15 +33,65 @@ let ProfileComponent = class ProfileComponent {
         this.editAccess = !this.editAccess;
     }
     selectChanged() {
-        console.log(this.selectedAccess);
+        let adminAccess = this.selectedAccess == 'Admin';
+        this.userService.updateUser(this.userProfile._id, this.username, this.name, this.surname, adminAccess).subscribe(response => {
+            console.log(response);
+            this.userProfile.adminAccess = adminAccess;
+            this.editAccess = false;
+        });
+    }
+    onEditPassword() {
+        this.editingPassword = !this.editingPassword;
+    }
+    onSaveUsername() {
+        this.userService.updateUser(this.userProfile._id, this.username, this.name, this.surname, this.userProfile.adminAccess).subscribe(response => {
+            this.userProfile.username = this.username;
+            this.editingUsername = false;
+        });
+    }
+    onSavePassword() {
+        if (this.repassword === this.newpassword)
+            this.userService.updateUserPassword(this.userProfile._id, this.oldpassword, this.newpassword)
+                .subscribe((response) => {
+                console.log(response);
+                if (response.status)
+                    sweetalert2_1.default.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: response.message
+                    });
+            });
+        else
+            sweetalert2_1.default.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'passwords didnt match'
+            });
+    }
+    onSaveName() {
+        this.userService.updateUser(this.userProfile._id, this.username, this.name, this.surname, this.userProfile.adminAccess).subscribe(response => {
+            this.userProfile.name = this.name;
+            this.editingName = false;
+        });
+    }
+    onSaveSurname() {
+        this.userService.updateUser(this.userProfile._id, this.username, this.name, this.surname, this.userProfile.adminAccess).subscribe(response => {
+            this.userProfile.surname = this.surname;
+            this.editingSurname = false;
+        });
     }
     ngOnInit() {
         this.route.paramMap.subscribe((paramMap) => {
             if (paramMap.has('id')) {
                 this.userService.getUser(paramMap.get('id')).subscribe((user) => {
                     this.userProfile = user;
+                    this.username = user.username;
+                    this.surname = user.surname;
+                    this.name = user.name;
+                    this.selectedAccess = user.selectedAccess;
                     this.userService.getConnectUser().subscribe((connectedUser) => {
-                        this.ownProfile = connectedUser._id === user._id;
+                        this.ownProfile = connectedUser._id === user._id || connectedUser.adminAccess;
+                        this.connectedUser = connectedUser;
                         this.loading = false;
                     });
                 });

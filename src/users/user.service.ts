@@ -108,14 +108,26 @@ export class UserService {
         }
 
     }
-    updatePassword = async (senderId: string, userId: string, newPassword: string) => {
+    updatePassword = async (senderId: string, userId: string, oldPassword: string, newPassword: string) => {
 
         try {
-            const user = await this.UserModel.findById(senderId)
-            if (user && (user.adminAccess || user._id === userId)) {
-                const hashedpass = await bcrypt.hash(newPassword, 11);
-                user.password = hashedpass;
-                return await user.save()
+            const userSender = await this.UserModel.findById(senderId)
+            const user = await this.UserModel.findById(userId)
+
+            if (user) {
+                if (userSender.adminAccess) {
+                    const hashedpass = await bcrypt.hash(newPassword, 11);
+                    user.password = hashedpass;
+                    return await user.save()
+                }
+                else if (userSender._id === userId)
+                    if (await bcrypt.compare(oldPassword, user.password)) {
+                        const hashedpass = await bcrypt.hash(newPassword, 11);
+                        user.password = hashedpass;
+                        return await user.save()
+                    }
+                throw new HttpException('Wrong password', HttpStatus.FORBIDDEN)
+
             }
             throw new HttpException('user not found', HttpStatus.NOT_FOUND)
 

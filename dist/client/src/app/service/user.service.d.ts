@@ -14,4 +14,5 @@ export declare class UserService {
     addUser(username: string, password: string, name: string, surname: string): import("rxjs").Observable<Object>;
     deleteUser(userId: string): import("rxjs").Observable<Object>;
     updateUser(userId: string, username: string, name: string, surname: string, access: boolean): import("rxjs").Observable<Object>;
+    updateUserPassword(userId: string, oldPassword: string, newPassword: string): import("rxjs").Observable<Object>;
 }

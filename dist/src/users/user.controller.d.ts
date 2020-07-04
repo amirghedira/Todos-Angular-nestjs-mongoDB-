@@ -11,11 +11,11 @@ export declare class UserController {
     login(req: any): Promise<{
         access_token: string;
     }>;
+    updatePassword(req: any, userid: string, newPassword: string, oldPassword: string): Promise<any>;
     updateUser(req: any, userid: string, username: string, name: string, surname: string, access: string): Promise<import("@nestjs/common").HttpException | {
         message: string;
     }>;
     deleteUser(userid: string, req: any): Promise<import("@nestjs/common").HttpException | {
         message: string;
     }>;
-    updatePassword(req: any, userid: string, newPassword: string): Promise<any>;
 }

@@ -38,14 +38,14 @@ let UserController = class UserController {
     async login(req) {
         return await this.authService.login(req.user);
     }
+    async updatePassword(req, userid, newPassword, oldPassword) {
+        return await this.userService.updatePassword(req.user._id, userid, oldPassword, newPassword);
+    }
     async updateUser(req, userid, username, name, surname, access) {
         return await this.userService.editUser(req.user._id, userid, username, name, surname, access);
     }
     async deleteUser(userid, req) {
         return await this.userService.deleteUser(userid, req.user._id);
-    }
-    async updatePassword(req, userid, newPassword) {
-        return await this.userService.updatePassword(req.user._id, userid, newPassword);
     }
 };
 __decorate([
@@ -89,6 +89,17 @@ __decorate([
 ], UserController.prototype, "login", null);
 __decorate([
     common_1.UseGuards(jwt_auth_gard_1.JwtAuthGuard),
+    common_1.Patch('/password/:id'),
+    __param(0, common_1.Request()),
+    __param(1, common_1.Param('id')),
+    __param(2, common_1.Body('newPassword')),
+    __param(3, common_1.Body('oldPassword')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, String, String, String]),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "updatePassword", null);
+__decorate([
+    common_1.UseGuards(jwt_auth_gard_1.JwtAuthGuard),
     common_1.Patch(':id'),
     __param(0, common_1.Request()),
     __param(1, common_1.Param('id')),
@@ -108,16 +119,6 @@ __decorate([
     __metadata("design:paramtypes", [String, Object]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "deleteUser", null);
-__decorate([
-    common_1.UseGuards(jwt_auth_gard_1.JwtAuthGuard),
-    common_1.Patch('/password/:id'),
-    __param(0, common_1.Request()),
-    __param(1, common_1.Param('id')),
-    __param(2, common_1.Body('newPassword')),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, String, String]),
-    __metadata("design:returntype", Promise)
-], UserController.prototype, "updatePassword", null);
 UserController = __decorate([
     common_1.Controller('user'),
     __metadata("design:paramtypes", [user_service_1.UserService, auth_service_1.AuthService])

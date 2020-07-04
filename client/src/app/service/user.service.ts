@@ -49,4 +49,10 @@ export class UserService {
 
         return this.http.patch('http://localhost:3000/user/' + userId, { username, surname, name, access }, { headers: headers })
     }
+    updateUserPassword(userId: string, oldPassword: string, newPassword: string) {
+
+        const headers = new HttpHeaders().set('Authorization', 'Bearer ' + this.authService.getToken());
+        return this.http.patch('http://localhost:3000/user/password/' + userId, { newPassword, oldPassword }, { headers: headers })
+
+    }
 }

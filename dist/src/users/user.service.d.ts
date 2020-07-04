@@ -12,7 +12,7 @@ export declare class UserService {
     editUser: (senderId: string, userId: string, username: string, name: string, surname: string, access: string) => Promise<HttpException | {
         message: string;
     }>;
-    updatePassword: (senderId: string, userId: string, newPassword: string) => Promise<any>;
+    updatePassword: (senderId: string, userId: string, oldPassword: string, newPassword: string) => Promise<any>;
     deleteUser: (userId: string, senderId: string) => Promise<HttpException | {
         message: string;
     }>;
