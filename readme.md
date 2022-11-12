@@ -10,7 +10,18 @@ Admins can edit any user and can provide admin access to them. Once a task is as
 The main goal of this application is to build a full CRUD application that uses NestJs in the back-end   
 Platform & Libraries 
 ## Front-end
-
+### Screens:
+#### Signup screen
+![signup_screen](https://amirplatform.s3.eu-central-1.amazonaws.com/project/tzvia7mnaqwusrc2fg6u.png)
+#### Login screen
+![login_screen](https://amirplatform.s3.eu-central-1.amazonaws.com/project/ujdagcdra8ohsk9dpicj.png)
+#### Main page (regular user)
+![main_page](https://amirplatform.s3.eu-central-1.amazonaws.com/project/dggkyksjs6ej6ifzwzkr.png)
+#### Profile settings page 
+![profile](https://amirplatform.s3.eu-central-1.amazonaws.com/project/ivnv88piol5gkvkmwz6d.png)
+#### Main page (admin user)
+![main_page](https://amirplatform.s3.eu-central-1.amazonaws.com/project/d2efx26zr3qrbl8h61qr.png)
+### Dependencies 
 ```json
     "dependencies": {
         "@angular/animations": "~8.2.14",
@@ -29,20 +40,20 @@ Platform & Libraries
     }
 ```
 
-### Angular (@angular):
+#### Angular (@angular):
 
 those packages are imported directly using angular CLI when you start a new project to work with angular.
 Link: [https://cli.angular.io/](https://cli.angular.io/)
 
-### moment
+#### moment
 this library allow you to deal with date more efficiently and from it you can create dynamic dates like from-now date (1 min ago, 1 hour ago, etc..)
 Link: [https://www.npmjs.com/package/moment](https://www.npmjs.com/package/moment)
 
-### rxjs:
+#### rxjs:
 this amazing and huge library has a lot to say about , but to be brief it allow you to manage some state in your angular project.
 Link: [https://www.npmjs.com/package/rxjs](https://www.npmjs.com/package/rxjs)
 
-### sweetalert2:
+#### sweetalert2:
 this library provides a pre-build modals that you can use to display success messages or errors, without adding HTML or CSS to your project.
 Link: [https://www.npmjs.com/package/sweetalert2](https://www.npmjs.com/package/sweetalert2)
 
