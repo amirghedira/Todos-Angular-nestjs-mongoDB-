@@ -29,7 +29,7 @@ let AuthService = class AuthService {
     async login(user) {
         const payload = { username: user.username, _id: user._id };
         return {
-            access_token: jwt.sign(payload, 'jwtsecretkey')
+            access_token: jwt.sign(payload, process.env.JWT_SECRET_KEY)
         };
     }
 };
