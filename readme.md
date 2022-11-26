@@ -6,8 +6,19 @@ Only admins can assign tasks to users. the first account created in the database
 Admins can edit any user and can provide admin access to them. Once a task is assigned to a user, it will be displayed to him. He can close the task when ever he finishes it. 
 
 # Launch the project
-## backend
+
 To launch the project, you have to first add a `.env` file in the root directory that will hold the environment variables of the backend. You can find a `.env.example` folder as reference for the environment variables used.
+
+## Using Docker
+Note: Docker must be installed on your machine.
+To launch the project (frontend and backend), simply run:
+```bash
+docker-compose -f docker-compose-local.yml up --build --force-recreate
+```
+
+## Manually
+### backend
+
 
 After adding a `.env` file you have to install the NodeJS packages on the backend (the project holds both the frontend under the client folder and the backend in the root directory of the project)
 
@@ -24,7 +35,7 @@ To run the backend server in development mode run:
 npm start:dev
 ```
 Note that the server will listen on port `5000`
-## frontend
+### frontend
 Navigate to the client folder by running:
 ``` bash
 cd client
